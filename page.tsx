@@ -1,97 +1,124 @@
-import PropertyFilters from "@/components/properties/property-filters";
-import PropertyGrid from "@/components/properties/property-grid";
-import PropertyMap from "@/components/properties/property-map";
+"use client";
 
-// This would come from your API in a real app
-const properties = [
-  {
-    id: 1,
-    title: "Modern Apartment with City View",
-    location: "Jubilee Hills, Hyderabad",
-    price: "₹1.2 Cr",
-    bedrooms: 3,
-    bathrooms: 2,
-    area: "1800 sq.ft",
-    image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
-    coordinates: { lat: 17.4265, lng: 78.4288 },
-    label: "Featured"
-  },
-  {
-    id: 2,
-    title: "Luxurious Villa with Pool",
-    location: "Whitefield, Bangalore",
-    price: "₹3.5 Cr",
-    bedrooms: 4,
-    bathrooms: 4.5,
-    area: "4200 sq.ft",
-    image: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg",
-    coordinates: { lat: 12.9698, lng: 77.7500 },
-    label: "Premium"
-  },
-  {
-    id: 3,
-    title: "Penthouse with Terrace Garden",
-    location: "Banjara Hills, Hyderabad",
-    price: "₹2.8 Cr",
-    bedrooms: 3,
-    bathrooms: 3,
-    area: "2800 sq.ft",
-    image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg",
-    coordinates: { lat: 17.4156, lng: 78.4347 },
-    label: "New"
-  },
-  {
-    id: 4,
-    title: "Contemporary 3BHK Apartment",
-    location: "Indiranagar, Bangalore",
-    price: "₹1.8 Cr",
-    bedrooms: 3,
-    bathrooms: 3,
-    area: "1950 sq.ft",
-    image: "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg",
-    coordinates: { lat: 12.9784, lng: 77.6408 },
-    label: ""
-  },
-  {
-    id: 5,
-    title: "Garden View Bungalow",
-    location: "Aluva, Kochi",
-    price: "₹1.5 Cr",
-    bedrooms: 4,
-    bathrooms: 3,
-    area: "2200 sq.ft",
-    image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg",
-    coordinates: { lat: 10.1004, lng: 76.3570 },
-    label: ""
-  },
-  {
-    id: 6,
-    title: "Beachfront Villa",
-    location: "ECR, Chennai",
-    price: "₹4.2 Cr",
-    bedrooms: 5,
-    bathrooms: 5.5,
-    area: "5000 sq.ft",
-    image: "https://images.pexels.com/photos/7031406/pexels-photo-7031406.jpeg",
-    coordinates: { lat: 12.9150, lng: 80.2496 },
-    label: "Luxury"
-  },
-];
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Building } from "lucide-react";
 
-export default function BuyPage() {
+export default function LoginPage() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+      // Redirect would happen here in a real app
+    }, 1500);
+  };
+
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">Properties for Sale</h1>
-      
-      <div className="flex flex-col lg:flex-row gap-8">
-        <div className="lg:w-1/3 xl:w-1/4">
-          <PropertyFilters />
+    <div className="container flex items-center justify-center min-h-[80vh] py-16 px-4 md:px-6">
+      <div className="w-full max-w-md">
+        <div className="flex justify-center mb-8">
+          <Link href="/" className="flex items-center space-x-2">
+            <Building className="h-8 w-8 text-primary" />
+            <span className="text-xl font-bold">RealEstate</span>
+          </Link>
         </div>
         
-        <div className="lg:w-2/3 xl:w-3/4 space-y-8">
-          <PropertyMap properties={properties} />
-          <PropertyGrid properties={properties} />
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+            <CardDescription className="text-center">
+              Log in to access your account and manage your properties
+            </CardDescription>
+          </CardHeader>
+          
+          <Tabs defaultValue="email" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="email">Email</TabsTrigger>
+              <TabsTrigger value="phone">Phone</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="email">
+              <form onSubmit={handleSubmit}>
+                <CardContent className="space-y-4 pt-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" placeholder="name@example.com" required />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">Password</Label>
+                      <Link 
+                        href="/forgot-password" 
+                        className="text-sm text-primary hover:underline"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
+                    <Input id="password" type="password" required />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="remember" />
+                    <Label htmlFor="remember" className="text-sm">Remember me</Label>
+                  </div>
+                </CardContent>
+                
+                <CardFooter className="flex flex-col space-y-4">
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Logging in..." : "Log in"}
+                  </Button>
+                  <p className="text-center text-sm text-muted-foreground">
+                    Don't have an account?{" "}
+                    <Link href="/signup" className="text-primary hover:underline">
+                      Sign up
+                    </Link>
+                  </p>
+                </CardFooter>
+              </form>
+            </TabsContent>
+            
+            <TabsContent value="phone">
+              <form onSubmit={handleSubmit}>
+                <CardContent className="space-y-4 pt-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input id="phone" type="tel" placeholder="+91 9999999999" required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="otp">OTP</Label>
+                    <div className="flex space-x-2">
+                      <Input id="otp" type="text" placeholder="Enter OTP" />
+                      <Button variant="outline" type="button">
+                        Send OTP
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+                
+                <CardFooter className="flex flex-col space-y-4">
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Verifying..." : "Verify & Log in"}
+                  </Button>
+                  <p className="text-center text-sm text-muted-foreground">
+                    Don't have an account?{" "}
+                    <Link href="/signup" className="text-primary hover:underline">
+                      Sign up
+                    </Link>
+                  </p>
+                </CardFooter>
+              </form>
+            </TabsContent>
+          </Tabs>
+        </Card>
       </div>
     </div>
   );
